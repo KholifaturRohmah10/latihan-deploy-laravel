@@ -1,4 +1,9 @@
 <?php
+// Tampilkan semua error ke layar agar tidak muncul 500
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // 1. Buat folder sementara di /tmp untuk penyimpanan file log/cache
 $storagePath = '/tmp/storage';
 $directories = [
