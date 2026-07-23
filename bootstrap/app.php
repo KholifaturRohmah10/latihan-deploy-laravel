@@ -16,3 +16,19 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
+
+// FOR VERCEL: Force storage to /tmp to prevent all read-only crashes
+$storage = '/tmp/storage';
+@mkdir($storage . '/framework/views', 0777, true);
+@mkdir($storage . '/framework/cache/data', 0777, true);
+@mkdir($storage . '/framework/sessions', 0777, true);
+@mkdir($storage . '/logs', 0777, true);
+$app->useStoragePath($storage);
+
+// FOR VERCEL: Force APP_KEY if missing
+if (empty($_ENV['APP_KEY'])) {
+    $_ENV['APP_KEY'] = 'base64:evD3cGyTjib97WJlmt9CL1KVffS2/MvtExMX7zrJn2I=';
+    putenv('APP_KEY=base64:evD3cGyTjib97WJlmt9CL1KVffS2/MvtExMX7zrJn2I=');
+}
+
+return $app;
